@@ -1,46 +1,34 @@
 package com.JavaSelenium;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Before;
+import hook.CommonHooks;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.PageFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class TestPage {
-    private WebDriver driver;
+import static org.assertj.core.api.Assertions.assertThat;
 
-    @Before
-    public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+
+public class TestPage extends BaseTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonHooks.class);
+
+    @Test
+    public void navigateToMainPageAndCheckHeader() {
+        mainPage.navigateToMainPage();
+        assertThat(mainPage.getPageTitle()).isEqualTo("Practice Page");
     }
 
     @Test
-    public void navigateToPage() {
-        driver.get("https://www.nordea.fi/en/personal/get-help/");
-        MainPage page = PageFactory.initElements(driver, MainPage.class);
-        //Accept cookies by clicking accept button or via javascript - does not work
-        page.clickAlert();
-        //Print out header of the card
-        System.out.println(driver.getTitle());
-        //Print out count of card links
-        System.out.println(page.getLatestNewsTitlesCount());
-        //Print out link nr 2 href
-        System.out.println(page.getSecondHrefText());
-        //Come up with 2 assertions for elements in the card
-        page.checkHeader();
-        page.isLogInButtonVisible();
-        //Click on link nr 2
-        page.clickSecondLink();
-        //Add assertion that you were redirected correctly
-        CurrentIssuesPage secondPage = PageFactory.initElements(driver, CurrentIssuesPage.class);
-        secondPage.checkCurrentIssuesHeader();
+    public void navigateToPageAndClickRadioButtonAndSelectFromList() {
+        mainPage.navigateToMainPage();
+        mainPage.selectRadioButton("honda")
+                .selectFromDropdownList("Benz");
     }
 
-    @After
-    public void close() {
-        driver.quit();
+    @Test
+    public void checkFieldVisibility() {
+        mainPage.navigateToMainPage();
+        assertThat(mainPage.isTextFieldDisplayed()).isTrue();
+        mainPage.clickHideButton();
+        assertThat(mainPage.isTextFieldNotDisplayed("//input[@id='displayed-text']")).isTrue();
     }
 }
