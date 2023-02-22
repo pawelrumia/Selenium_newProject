@@ -7,6 +7,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class MainPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//h1[@data-uniqid]")
     private WebElement titleHeader;
@@ -18,6 +22,13 @@ public class MainPage extends BasePage {
     private WebElement enterTextField;
     @FindBy(how = How.ID, using = "hide-textbox")
     private WebElement hideTextBoxButton;
+    @FindBy(how = How.XPATH, using = "//input[@name='enter-name']")
+    private WebElement enterNameTextField;
+    @FindBy(how = How.ID, using = "alertbtn")
+    private WebElement alertButton;
+    @FindBy(how = How.XPATH, using = "//tbody//tr")
+    private List<WebElement> codingTableRows;
+
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -50,4 +61,26 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    public MainPage enterTextToAlert(String text) {
+        super.sendText(text, this.enterNameTextField);
+        return this;
+    }
+
+    public MainPage clickAlertButton() {
+        super.click(this.alertButton);
+        return this;
+    }
+
+    public List<Map<String, String>> getTableData() {
+        List<Map<String, String>> actualTableRows = new ArrayList<>();
+
+        this.codingTableRows.stream().skip(1).forEach(row -> actualTableRows.add(
+                Map.of(
+                        "Author", row.findElement(By.className("author-name")).getText(),
+                        "Course", row.findElement(By.className("course-name")).getText(),
+                        "Price", row.findElement(By.className("price")).getText()
+                )
+        ));
+        return actualTableRows;
+    }
 }
