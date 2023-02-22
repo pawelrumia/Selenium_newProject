@@ -1,9 +1,7 @@
 package com.selenium.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
@@ -61,16 +59,34 @@ public class BasePage {
         return element.getAttribute("value");
     }
 
-    public void selectFromDropDownList(WebElement element, String text) {
+    protected void selectFromDropDownList(WebElement element, String text) {
         waitUntil().until(ExpectedConditions.elementToBeClickable(element));
         Select select = new Select(element);
         select.selectByVisibleText(text);
     }
 
-    public void selectRadioButton(WebElement radioGroup, String optionToSelect) {
+    protected void selectRadioButton(WebElement radioGroup, String optionToSelect) {
         waitUntil().until(ExpectedConditions.visibilityOf(radioGroup));
         String xpath = String.format("//input[@value='%s']", optionToSelect);
         WebElement radioGroupButton = radioGroup.findElement(By.xpath(xpath));
         this.click(radioGroupButton);
+    }
+
+    protected void takeItWithAction(WebElement element) {
+        Actions action = new Actions(this.driver);
+    }
+
+    public void handleAlertMessageIfPresent() {
+        try {
+            this.waitUntil().until(ExpectedConditions.alertIsPresent()).accept();
+        } catch (NoAlertPresentException exception) {
+            exception.printStackTrace();
+        }
+        this.waitUntil(2);
+    }
+
+    protected void sendText(String text, WebElement element) {
+        waitUntil().until(ExpectedConditions.elementToBeClickable(element));
+        element.sendKeys(text);
     }
 }
