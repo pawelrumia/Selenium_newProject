@@ -2,6 +2,7 @@ package com.selenium.pages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.time.Duration;
 
 public class BasePage {
-    public WebDriver driver;
+    private final WebDriver driver;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -72,8 +73,10 @@ public class BasePage {
         this.click(radioGroupButton);
     }
 
-    protected void takeItWithAction(WebElement element) {
-        Actions action = new Actions(this.driver);
+    protected void moveTo(WebElement element) {
+        final Actions action = new Actions(this.driver);
+        waitUntil().until(ExpectedConditions.visibilityOf(element));
+        action.moveToElement(element).perform();
     }
 
     public void handleAlertMessageIfPresent() {
@@ -88,5 +91,9 @@ public class BasePage {
     protected void sendText(String text, WebElement element) {
         waitUntil().until(ExpectedConditions.elementToBeClickable(element));
         element.sendKeys(text);
+    }
+
+    protected boolean isElementEnabled(WebElement element) {
+        return element.isEnabled();
     }
 }

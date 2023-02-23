@@ -18,20 +18,18 @@ public class TestPage extends BaseTest {
 
     @Test
     public void navigateToMainPageAndCheckHeader() {
-        mainPage.navigateToMainPage();
+        LOGGER.info("Header check!");
         assertThat(mainPage.getPageTitle()).isEqualTo("Practice Page");
     }
 
     @Test
     public void navigateToPageAndClickRadioButtonAndSelectFromList() {
-        mainPage.navigateToMainPage();
         mainPage.selectRadioButton("honda")
                 .selectFromDropdownList("Benz");
     }
 
     @Test
     public void checkFieldVisibility() {
-        mainPage.navigateToMainPage();
         assertThat(mainPage.isTextFieldDisplayed()).isTrue();
         mainPage.clickHideButton();
         assertThat(mainPage.isTextFieldNotDisplayed("//input[@id='displayed-text']")).isTrue();
@@ -39,7 +37,6 @@ public class TestPage extends BaseTest {
 
     @Test
     public void sendNameAndHandleAlert() {
-        mainPage.navigateToMainPage();
         mainPage.enterTextToAlert("Pawel")
                 .clickAlertButton()
                 .handleAlertMessageIfPresent();
@@ -47,9 +44,22 @@ public class TestPage extends BaseTest {
 
     @Test
     public void checkTableData() {
-        mainPage.navigateToMainPage();
         List<Map<String, String>> tableData = mainPage.getTableData();
         assertThat(tableData.get(1).get("Course")).isEqualTo("Python Programming Language");
         assertThat(tableData.get(2), IsMapContaining.hasEntry("Course", "JavaScript Programming Language"));
+    }
+
+    @Test
+    public void verifyTextFieldIsDisabledThenEnabled() {
+        mainPage.clickDisableButton();
+        assertThat(mainPage.verifyTextFieldIsEnabled()).isFalse();
+        mainPage.clickEnableButton();
+        assertThat(mainPage.verifyTextFieldIsEnabled()).isTrue();
+    }
+
+    @Test
+    public void hoverButton() {
+        mainPage.moveToHoverField()
+                .clickTopButton();
     }
 }
