@@ -23,6 +23,7 @@ public class BaseTest {
         driver.manage().deleteAllCookies();
         pageGenerator = new PageGenerator(driver);
         mainPage = pageGenerator.getInstance(MainPage.class);
+        mainPage.navigateToMainPage();
     }
 
     @After

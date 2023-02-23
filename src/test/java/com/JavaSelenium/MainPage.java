@@ -28,6 +28,16 @@ public class MainPage extends BasePage {
     private WebElement alertButton;
     @FindBy(how = How.XPATH, using = "//tbody//tr")
     private List<WebElement> codingTableRows;
+    @FindBy(how = How.ID, using = "enabled-example-input")
+    private WebElement enabledDisabledTextField;
+    @FindBy(how = How.ID, using = "disabled-button")
+    private WebElement disableButton;
+    @FindBy(how = How.ID, using = "enabled-button")
+    private WebElement enableButton;
+    @FindBy(how = How.ID, using = "mousehover")
+    private WebElement mouseHoverField;
+    @FindBy(how = How.XPATH, using = "//div[@class='mouse-hover-content']//a[1]")
+    private WebElement topButton;
 
 
     public MainPage(WebDriver driver) {
@@ -82,5 +92,29 @@ public class MainPage extends BasePage {
                 )
         ));
         return actualTableRows;
+    }
+
+    public MainPage clickDisableButton() {
+        super.click(this.disableButton);
+        return this;
+    }
+
+    public MainPage clickEnableButton() {
+        super.click(this.enableButton);
+        return this;
+    }
+
+    public boolean verifyTextFieldIsEnabled() {
+        return super.isElementEnabled(this.enabledDisabledTextField);
+    }
+
+    public MainPage moveToHoverField() {
+        super.moveTo(this.mouseHoverField);
+        return this;
+    }
+
+    public MainPage clickTopButton() {
+        super.click(this.topButton);
+        return this;
     }
 }
