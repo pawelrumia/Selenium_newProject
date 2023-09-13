@@ -1,5 +1,6 @@
 package com.JavaSelenium;
 
+import com.selenium.driverFactory.PageManager;
 import com.selenium.pages.PageGenerator;
 import org.junit.After;
 import org.junit.Before;
@@ -9,21 +10,25 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class BaseTest {
+public class BaseTest extends PageGenerator{
     public WebDriver driver;
     public WebDriverWait wait;
     public PageGenerator pageGenerator;
     public MainPage mainPage;
 
+    public BaseTest(WebDriver driver) {
+        super(driver);
+    }
+
     @Before
     public void setUp() {
+        PageManager.getInstance().initializePageGenerator();
+        System.out.println("Page generator initialized!");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(2));
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-        pageGenerator = new PageGenerator(driver);
-        mainPage = pageGenerator.getInstance(MainPage.class);
-        mainPage.navigateToMainPage();
     }
 
     @After

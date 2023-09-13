@@ -1,6 +1,6 @@
 package runner;
 
-import com.JavaSelenium.TestPage;
+import com.JavaSelenium.tests.TestPage;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;

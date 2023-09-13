@@ -2,18 +2,16 @@ package com.selenium.pages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
 import java.time.Duration;
 
-public class BasePage {
-    private final WebDriver driver;
+public class BasePage extends PageGenerator{
 
     public BasePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public BasePage navigateToMainPage() {
