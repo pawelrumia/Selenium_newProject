@@ -1,6 +1,5 @@
-package com.JavaSelenium;
+package com.selenium.pages;
 
-import com.selenium.pages.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,8 +39,8 @@ public class MainPage extends BasePage {
     private WebElement topButton;
 
 
-    public MainPage(WebDriver driver) {
-        super(driver);
+    public MainPage() {
+
     }
 
     public String getPageTitle() {
