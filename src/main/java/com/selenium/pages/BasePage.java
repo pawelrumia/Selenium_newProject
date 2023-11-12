@@ -10,13 +10,12 @@ import java.time.Duration;
 
 public class BasePage extends PageGenerator{
 
-    public BasePage(WebDriver driver) {
-        super(driver);
+    public BasePage() {
     }
 
-    public BasePage navigateToMainPage() {
+    public MainPage navigateToMainPage() {
         this.driver.get("https://courses.letskodeit.com/practice");
-        return this;
+        return new MainPage();
     }
 
     protected FluentWait<WebDriver> waitUntil(Duration timeout, Duration polling) {
